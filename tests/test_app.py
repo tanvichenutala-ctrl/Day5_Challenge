@@ -43,5 +43,27 @@ def test_blank_title_returns_400(client):
 def test_resolved_ticket_shows_resolved_on_screen(client):
     html = client.get("/").get_data(as_text=True)
     assert "Resolved" in html
-# Add your own tests below: one failing test for each bug you find,
-# plus at least 5 negative tests.
+
+def test_unknown_category_returns_400(client):
+    r = client.post("/api/tickets", json={"title": "Printer jam", "category": "Furniture"})
+    assert r.status_code == 400
+
+
+def test_unknown_priority_returns_400(client):
+    r = client.post("/api/tickets", json={"title": "Printer jam", "priority": "Urgent"})
+    assert r.status_code == 400
+
+
+def test_missing_title_returns_400(client):
+    r = client.post("/api/tickets", json={"description": "No title"})
+    assert r.status_code == 400
+
+
+def test_unknown_status_returns_400(client):
+    r = client.patch("/api/tickets/1/status", json={"status": "Done"})
+    assert r.status_code == 400
+
+
+def test_status_change_on_missing_ticket_returns_404(client):
+    r = client.patch("/api/tickets/9999/status", json={"status": "Open"})
+    assert r.status_code == 404
