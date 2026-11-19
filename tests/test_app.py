@@ -31,6 +31,13 @@ def test_tickets_sorted_high_medium_low(client):
     priorities = [t["priority"] for t in client.get("/api/tickets").get_json()]
     assert priorities == ["High", "High", "Medium", "Medium", "Low"]
 
+def test_empty_title_returns_400(client):
+    response = client.post("/api/tickets", json={"title": ""})
+    assert response.status_code == 400
 
+
+def test_blank_title_returns_400(client):
+    response = client.post("/api/tickets", json={"title": "   "})
+    assert response.status_code == 400
 # Add your own tests below: one failing test for each bug you find,
 # plus at least 5 negative tests.
