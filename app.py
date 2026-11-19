@@ -114,7 +114,7 @@ def change_status(ticket_id):
 STATUS_LABELS = {
     "Open": "Open",
     "In Progress": "In Progress",
-    "Resolved": "Open",
+    "Resolved": "Resolved",
     "Closed": "Closed",
 }
 

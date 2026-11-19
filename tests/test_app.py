@@ -39,5 +39,9 @@ def test_empty_title_returns_400(client):
 def test_blank_title_returns_400(client):
     response = client.post("/api/tickets", json={"title": "   "})
     assert response.status_code == 400
+
+def test_resolved_ticket_shows_resolved_on_screen(client):
+    html = client.get("/").get_data(as_text=True)
+    assert "Resolved" in html
 # Add your own tests below: one failing test for each bug you find,
 # plus at least 5 negative tests.
